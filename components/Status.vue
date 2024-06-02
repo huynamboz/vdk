@@ -93,13 +93,13 @@ watch(() => [masterStore.getSensor.threshold, masterStore.getBuzzer.volume, mast
         <UIcon name="i-ph-cloud-warning" />
         <p>Ngưỡng cảnh báo khí gas: {{ masterStore.getSensor.threshold }} - {{ (masterStore.getSensor.threshold * 100 /1024).toFixed(0) }}%</p>
       </div>
-      <URange v-model="gasThreshold" :min="200" :max="900" />
+      <URange v-model="gasThreshold" :min="0" :max="1024" />
     </div>
     <hr>
     <div class="flex flex-col gap-2">
       <div class="flex items-center gap-1">
         <UIcon name="i-ph-fan-light" />
-        <p>Tốc độ quạt: {{ masterStore.getFan.velocity }} - {{ `${masterStore.getFan.velocity *100 / 255}%` }}</p>
+        <p>Tốc độ quạt: {{ masterStore.getFan.velocity }} - {{ `${(masterStore.getFan.velocity *100 / 255).toFixed(0)}%` }}</p>
       </div>
       <URange v-model="velocity" :min="0" :max="255" />
     </div>
@@ -107,7 +107,7 @@ watch(() => [masterStore.getSensor.threshold, masterStore.getBuzzer.volume, mast
     <div class="flex flex-col gap-2">
       <div class="flex items-center gap-1">
         <UIcon name="i-ph-speaker-simple-low" />
-        <p>Âm lượng chuông: {{ masterStore.getBuzzer.volume }} - {{ `${masterStore.getBuzzer.volume * 100 / 255}%` }}</p>
+        <p>Âm lượng chuông: {{ masterStore.getBuzzer.volume }} - {{ `${(masterStore.getBuzzer.volume * 100 / 255).toFixed(0)}%` }}</p>
       </div>
       <URange v-model="volume" :min="0" :max="255" />
     </div>

@@ -14,7 +14,7 @@ export const useSocketStore = defineStore({
     },
     actions: {
         connect() {
-            this.socket = new WebSocket("wss://anh-4.developer.vi-jp-te.info/")
+            this.socket = new WebSocket("wss://unlockscan.site/")
             this.socket.onmessage = (event) => {
                 this.message = JSON.parse(event.data);
             };

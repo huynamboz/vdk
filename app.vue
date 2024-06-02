@@ -28,7 +28,32 @@ const masterStore = useMasterStore()
 onBeforeMount(() => {
   socketStore.connect()
 })
+// Chuỗi thời gian đầu vào
+function calculateDelay (val) {
+  const inputTimeString = val;
 
+// Chuyển đổi chuỗi thời gian thành đối tượng Date
+function parseDateTime(dateTimeString) {
+  const [datePart, timePart] = dateTimeString.split(' ');
+  const [day, month, year] = datePart.split('/').map(Number);
+  const [hours, minutes, seconds, milliseconds] = timePart.split(/[:]/).map(Number);
+
+  return new Date(year, month - 1, day, hours, minutes, seconds, milliseconds);
+}
+
+const inputTime = parseDateTime(inputTimeString);
+
+// Lấy thời gian hiện tại
+const currentTime = new Date();
+
+// Tính độ lệch thời gian (ms)
+const timeDifference = currentTime - inputTime;
+
+// console.log(`Input Time: ${inputTime}`);
+// console.log(`Current Time: ${currentTime}`);
+// console.log(`Time Difference (ms): ${timeDifference}`);
+return timeDifference;
+}
 watch(() => messageSocket.value,
 (val) => {
   if (val.totalUsers) {
@@ -38,17 +63,20 @@ watch(() => messageSocket.value,
   if (val.sensor) {
     masterStore.setSensor(val.sensor)
   }
-  if (val.door !== undefined) {
+  if (val.door !== undefined && val.sensor) {
     masterStore.setDoor(Boolean(val.door))
   }
-  if (val.buzzer) {
+  if (val.buzzer && val.sensor) {
     masterStore.setBuzzer(val.buzzer)
   }
-  if (val.fan) {
+  if (val.fan && val.sensor) {
     masterStore.setFan(val.fan)
   }
-  if (val.automatic !== undefined) {
+  if (val.automatic !== undefined && val.sensor) {
     masterStore.setAutomatic(val.automatic)
+  }
+  if (val.time) {
+    masterStore.setDelay(calculateDelay(val.time))
   }
 })
 </script>

@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">smarthome</string>
-    <string name="title_activity_main">smarthome</string>
-    <string name="package_name">com.example.vdk</string>
-    <string name="custom_url_scheme">com.example.vdk</string>
-</resources>

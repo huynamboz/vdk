@@ -17,7 +17,8 @@ export const useMasterStore = defineStore({
         fan: {
             on: false,
             velocity: 0
-        }
+        },
+        delay: 0
     }),
     getters: {
         getTotalUsers(): number {
@@ -37,6 +38,9 @@ export const useMasterStore = defineStore({
         },
         getAutomatic(): boolean {
             return this.automatic;
+        },
+        getDelay(): number {
+            return this.delay;
         }
     },
     actions: {
@@ -66,6 +70,10 @@ export const useMasterStore = defineStore({
         },
         setAutomatic(automatic: boolean) {
             this.automatic = automatic;
+        },
+        setDelay(delay: number) {
+            console.log("delay", delay);
+            this.delay = delay > 0 ? delay : this.delay;
         }
     },
 });

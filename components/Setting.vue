@@ -55,6 +55,11 @@ function changeRing() {
       <h3 class="text-lg font-semibold leading-6">
         Cài đặt chung
       </h3>
+      <div class="flex justify-between">
+        Độ trễ: <p class="w-16 text-right">
+          {{ masterStore.getDelay }}ms
+        </p>
+      </div>
     </template>
 
     <div class="flex justify-between flex-wrap gap-3 w-full whitespace-nowrap">
