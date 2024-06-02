@@ -12,25 +12,19 @@ const masterStore = useMasterStore()
 function onChangeMode() {
   // autoMode.value = !autoMode.value
   socketStore.sendMessage({
-    door: convertToNumber(masterStore.getDoor),
     automatic: convertToNumber(!autoMode.value),
-    fan: convertToNumber(fan.value)
   })
 }
 
 function openDoor() {
   socketStore.sendMessage({
     door: convertToNumber(!masterStore.getDoor),
-    automatic: convertToNumber(autoMode.value),
-    fan: convertToNumber(masterStore.getFan.on)
   })
 }
 
 function changeFan() {
   socketStore.sendMessage({
     fan: convertToNumber(!masterStore.getFan.on),
-    door: convertToNumber(masterStore.getDoor),
-    automatic: convertToNumber(autoMode.value)
   })
 }
 

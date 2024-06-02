@@ -8,7 +8,7 @@
     "db:generate": "drizzle-kit generate",
     "lint": "eslint .",
     "postinstall": "nuxt prepare",
-    "deploy": "gh-pages -d .output/public"
+    "deploy": "type NUL > .output/public/.nojekill && gh-pages -d .output/public -t true"
   },
   "dependencies": {
     "@iconify-json/ph": "^1.1.13",
