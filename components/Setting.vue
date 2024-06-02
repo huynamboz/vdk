@@ -29,7 +29,7 @@ function changeFan() {
 }
 
 watch(() => masterStore.getAutomatic, (val) => {
-  autoMode.value = val
+  autoMode.value = Boolean(val)
 })
 
 function convertToNumber(value) {

@@ -20,10 +20,20 @@ export const useSocketStore = defineStore({
             };
             this.socket.onopen = () => {
                 this.isConnected = true;
-            }
+            };
+            this.socket.onclose = () => {
+                this.isConnected = false;
+                console.log("Disconnected");
+                const reconnect = setTimeout(() => {
+                    console.log("Reconnecting...");
+                    this.connect();
+                    clearTimeout(reconnect);
+                }, 1000);
+            };
         },
         disconnect() {
             this.isConnected = false;
+            console.log("Disconnected");
         },
         sendMessage(message: any) {
             this.socket.send(JSON.stringify(message));

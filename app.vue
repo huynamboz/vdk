@@ -54,8 +54,11 @@ const timeDifference = currentTime - inputTime;
 // console.log(`Time Difference (ms): ${timeDifference}`);
 return timeDifference;
 }
+
+const isLoading = ref(true)
 watch(() => messageSocket.value,
 (val) => {
+  isLoading.value = false
   if (val.totalUsers) {
     masterStore.setTotalUsers(val.totalUsers)
   }
@@ -73,7 +76,7 @@ watch(() => messageSocket.value,
     masterStore.setFan(val.fan)
   }
   if (val.automatic !== undefined && val.sensor) {
-    masterStore.setAutomatic(val.automatic)
+    masterStore.setAutomatic(Boolean(val.automatic))
   }
   if (val.time) {
     masterStore.setDelay(calculateDelay(val.time))
@@ -92,7 +95,10 @@ watch(() => messageSocket.value,
         @click="toggleColorMode"
       />
     </div>
-
+    <div v-if="isLoading" class="fixed top-0 left-0 w-screen h-screen flex flex-col justify-center items-center bg-[#717171a1] z-50">
+      <UIcon name="i-svg-spinners-270-ring-with-bg text-white text-4xl" />
+      <p class="text-white">Đang kết nối websocket...</p>
+    </div>
     <NuxtPage />
 
     <footer class="text-center mt-2">

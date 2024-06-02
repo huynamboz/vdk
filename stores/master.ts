@@ -73,7 +73,7 @@ export const useMasterStore = defineStore({
         },
         setDelay(delay: number) {
             console.log("delay", delay);
-            this.delay = delay > 0 ? delay : this.delay;
+            this.delay = Math.abs(delay);
         }
     },
 });

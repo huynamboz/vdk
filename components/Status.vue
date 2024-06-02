@@ -10,39 +10,28 @@ const volume = ref(0)
 
 const DEBOUNCE_TIME = 500
 
-const debounce = (fn) => {
-  let timeout
-  return function () {
-    const context = this
-    const args = arguments
-    clearTimeout(timeout)
-    timeout = setTimeout(() => fn.apply(context, args), DEBOUNCE_TIME)
-  }
-}
 
-watch(velocity, debounce((value) => {
-  socketStore.sendMessage({
-    velocity: value.toString(),
-    volume: volume.value.toString(),
-    threshold: gasThreshold.value.toString()
-  })
-}))
 
-watch(volume, debounce((value) => {
-  console.log('gasThreshold', value)
-  socketStore.sendMessage({
-    threshold: gasThreshold.value.toString(),
-    volume: value.toString()
-  })
-}))
+// watch(velocity, debounce((value) => {
+//   socketStore.sendMessage({
+//     velocity: value.toString(),
+//   })
+// }))
 
-watch(gasThreshold, debounce((value) => {
-  console.log('gasThreshold', value)
-  socketStore.sendMessage({
-    threshold: value.toString(),
-    volume: volume.value.toString()
-  })
-}))
+// watch(volume, debounce((value) => {
+//   console.log('gasThreshold', value)
+//   socketStore.sendMessage({
+//     volume: value.toString()
+//   })
+// }))
+
+// watch(gasThreshold, debounce((value) => {
+//   console.log('gasThreshold', value)
+//   socketStore.sendMessage({
+//     threshold: value.toString(),
+//   })
+// }))
+
 const socketStore = useSocketStore()
 const masterStore = useMasterStore()
 
@@ -58,6 +47,40 @@ watch(() => [masterStore.getSensor.threshold, masterStore.getBuzzer.volume, mast
   }
 })
 
+const timeOutVolume = ref(null)
+const onChangeVolume = (val) => {
+  clearTimeout(timeOutVolume.value)
+  timeOutVolume.value = setTimeout(() => {
+    console.log('volume -->>')
+    socketStore.sendMessage({
+      volume: volume.value.toString()
+    })
+  }, DEBOUNCE_TIME)
+}
+
+const timeOutVelocity = ref(null)
+
+const onChangeVelocity = (val) => {
+  clearTimeout(timeOutVelocity.value)
+  timeOutVelocity.value = setTimeout(() => {
+    console.log('velocity -->>')
+    socketStore.sendMessage({
+      velocity: velocity.value.toString()
+    })
+  }, DEBOUNCE_TIME)
+}
+
+const timeOutGasThreshold = ref(null)
+
+const onChangeGasThreshold = (val) => {
+  clearTimeout(timeOutGasThreshold.value)
+  timeOutGasThreshold.value = setTimeout(() => {
+    console.log('gasThreshold -->>')
+    socketStore.sendMessage({
+      threshold: gasThreshold.value.toString()
+    })
+  }, DEBOUNCE_TIME)
+}
 
 </script>
 <template>
@@ -93,7 +116,7 @@ watch(() => [masterStore.getSensor.threshold, masterStore.getBuzzer.volume, mast
         <UIcon name="i-ph-cloud-warning" />
         <p>Ngưỡng cảnh báo khí gas: {{ masterStore.getSensor.threshold }} - {{ (masterStore.getSensor.threshold * 100 /1024).toFixed(0) }}%</p>
       </div>
-      <URange v-model="gasThreshold" :min="0" :max="1024" />
+      <URange v-model="gasThreshold" @update:modelValue="onChangeGasThreshold" :min="0" :max="1024" />
     </div>
     <hr>
     <div class="flex flex-col gap-2">
@@ -101,7 +124,7 @@ watch(() => [masterStore.getSensor.threshold, masterStore.getBuzzer.volume, mast
         <UIcon name="i-ph-fan-light" />
         <p>Tốc độ quạt: {{ masterStore.getFan.velocity }} - {{ `${(masterStore.getFan.velocity *100 / 255).toFixed(0)}%` }}</p>
       </div>
-      <URange v-model="velocity" :min="0" :max="255" />
+      <URange v-model="velocity" @update:modelValue="onChangeVelocity" :min="0" :max="255" />
     </div>
     <hr>
     <div class="flex flex-col gap-2">
@@ -109,7 +132,7 @@ watch(() => [masterStore.getSensor.threshold, masterStore.getBuzzer.volume, mast
         <UIcon name="i-ph-speaker-simple-low" />
         <p>Âm lượng chuông: {{ masterStore.getBuzzer.volume }} - {{ `${(masterStore.getBuzzer.volume * 100 / 255).toFixed(0)}%` }}</p>
       </div>
-      <URange v-model="volume" :min="0" :max="255" />
+      <URange v-model="volume" @update:modelValue="onChangeVolume" :min="0" :max="255" />
     </div>
     <hr>
 
