@@ -4,11 +4,12 @@ export const useMasterStore = defineStore({
     id: "master",
     state: () => ({
         totalUsers: 0,
+        automatic: false,
         sensor: {
             threshold: 0,
             value: 0
         },
-        servo: false,
+        door: false,
         buzzer: {
             on: false,
             volume: 0
@@ -25,14 +26,17 @@ export const useMasterStore = defineStore({
         getSensor(): any {
             return this.sensor;
         },
-        getServo(): boolean {
-            return this.servo;
+        getDoor(): boolean {
+            return this.door;
         },
         getBuzzer(): any {
             return this.buzzer;
         },
         getFan(): any {
             return this.fan;
+        },
+        getAutomatic(): boolean {
+            return this.automatic;
         }
     },
     actions: {
@@ -45,20 +49,23 @@ export const useMasterStore = defineStore({
                 value: sensor?.value ?? this.sensor.value
             };
         },
-        setServo(servo: boolean) {
-            this.servo = servo;
+        setDoor(door: boolean) {
+            this.door = door;
         },
         setBuzzer(buzzer: any) {
             this.buzzer = {
-                on: buzzer?.on ?? this.buzzer.on,
+                on: buzzer?.on ?? Boolean(this.buzzer.on),
                 volume: buzzer?.volume ?? this.buzzer.volume
             };
         },
         setFan(fan: any) {
             this.fan = {
-                on: fan?.on ?? this.fan.on,
+                on: fan?.on ?? Boolean(this.fan.on),
                 velocity: fan?.velocity ?? this.fan.velocity
             };
+        },
+        setAutomatic(automatic: boolean) {
+            this.automatic = automatic;
         }
     },
 });

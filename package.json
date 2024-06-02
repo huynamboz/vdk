@@ -4,12 +4,17 @@
     "dev": "nuxi dev",
     "build": "nuxi build",
     "preview": "nuxt preview",
+    "generate": "nuxt generate",
     "db:generate": "drizzle-kit generate",
     "lint": "eslint .",
     "postinstall": "nuxt prepare",
     "deploy": "gh-pages -d .output/public"
   },
   "dependencies": {
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/cli": "^6.0.0",
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/ios": "^6.0.0",
     "@iconify-json/ph": "^1.1.13",
     "@iconify-json/simple-icons": "^1.1.101",
     "@nuxt/eslint": "^0.3.13",

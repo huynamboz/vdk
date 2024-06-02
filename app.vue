@@ -34,11 +34,22 @@ watch(() => messageSocket.value,
   if (val.totalUsers) {
     masterStore.setTotalUsers(val.totalUsers)
   }
-  console.log('val', val)
-  masterStore.setSensor(val.sensor)
-  masterStore.setServo(val.servo)
-  masterStore.setBuzzer(val.buzzer)
-  masterStore.setFan(val.fan)
+  // console.log('val', val)
+  if (val.sensor) {
+    masterStore.setSensor(val.sensor)
+  }
+  if (val.door !== undefined) {
+    masterStore.setDoor(Boolean(val.door))
+  }
+  if (val.buzzer) {
+    masterStore.setBuzzer(val.buzzer)
+  }
+  if (val.fan) {
+    masterStore.setFan(val.fan)
+  }
+  if (val.automatic !== undefined) {
+    masterStore.setAutomatic(val.automatic)
+  }
 })
 </script>
 
@@ -54,24 +65,15 @@ watch(() => messageSocket.value,
       />
     </div>
 
-    {{ masterStore.getChip }}
     <NuxtPage />
 
     <footer class="text-center mt-2">
       <NuxtLink
-        href="https://github.com/atinux/nuxt-todos-edge"
+        href="https://github.com/huynamboz/vdk"
         target="_blank"
         class="text-sm text-gray-500 hover:text-gray-700"
       >
         GitHub
-      </NuxtLink>
-      ·
-      <NuxtLink
-        href="https://twitter.com/Atinux"
-        target="_blank"
-        class="text-sm text-gray-500 hover:text-gray-700"
-      >
-        Twitter
       </NuxtLink>
     </footer>
   </UContainer>
